@@ -54,3 +54,78 @@ As soon as the WebSocket connection is established, the outlet sends the JSON me
 }
 ```
 
+The server reply:
+
+```
+{"uri":"/loginReply","error":0,"wd":3,"year":2017,"month":11,"day":1,"ms":62125134,"hh":0,"hl":0,"lh":0,"ll":0}
+```
+
+## Periodic message sent from server
+```
+{"uri":"/ka"}
+```
+Outlet acknowledges message without reply
+
+## Periodic updates sent from the outlet to the server:
+```
+{
+"uri":"/report",
+"e":"324",
+"t":"b7"
+}
+```
+Server acknowleges message without reply
+
+## Periodic message 2
+Request from outlet:
+```
+{"uri":"/ka","rssi":-39}
+```
+
+Server acknowleges message then sends response:
+```
+{"uri":"/kr","error":0,"wd":3,"year":2017,"month":11,"day":1,"ms":62482912}
+```
+
+Three seconds later the outlet sends:
+```
+{
+"uri":"/report",
+"e":"320",
+"t":"b6"
+}
+```
+Server acknowleges message without reply.
+
+## Another message from outlet
+```
+{"uri":"/ka","rssi":-38}
+```
+
+Server acknowleges message then sends reply (within 70ms):
+
+```
+{"uri":"/kr","error":0,"wd":3,"year":2017,"month":11,"day":1,"ms":62666011}
+```
+
+Outlet acknowleges message.  Then 3 seconds later sends:
+
+```
+{
+"uri":"/report",
+"e":"320",
+"t":"b6"
+}
+```
+
+Server acknowleges message.
+
+
+
+
+
+
+
+
+
+
