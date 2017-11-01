@@ -139,8 +139,51 @@ Server acknowleges message.
 "t":"b6"
 }
 {"uri":"/ka","rssi":-46}
+{
+"uri":"/report",
+"e":"8e8",
+"t":"b6"
+}
+
 ```
 
 Next step: decipher the meaning and encoding of these fields.
 
+## Commands
+
+### Turn off
+
+Server sends:
+```
+{"uri":"/relay","action":"break"}
+```
+Outlet replies:
+```
+{
+"uri":"/runtimeInfo",
+"relay":"break",
+"meastate":"idle",
+"power":"0:0",
+"voltage":"0:0",
+"current":"NaN"
+}
+```
+
+### Turn on
+Server sends:
+```
+{"uri":"/relay","action":"open"}
+```
+
+Client responds:
+```
+{
+"uri":"/runtimeInfo",
+"relay":"open",
+"meastate":"idle",
+"power":"0:0",
+"voltage":"0:0",
+"current":"NaN"
+}
+```
 
