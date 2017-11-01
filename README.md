@@ -120,12 +120,27 @@ Outlet acknowleges message.  Then 3 seconds later sends:
 
 Server acknowleges message.
 
+## Other variations
 
+```
+{
+"uri":"/report",
+"e":"34e",
+"t":"b6"
+}
+{
+"uri":"/report",
+"e":"af5",
+"t":"b6"
+}
+{
+"uri":"/report",
+"e":"af9",
+"t":"b6"
+}
+{"uri":"/ka","rssi":-46}
+```
 
-
-
-
-
-
+Next step: decipher the meaning and encoding of these fields.
 
 
