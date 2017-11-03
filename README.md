@@ -33,7 +33,7 @@ Connection: Upgrade
 Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
 ```
 
-## initial handshake
+## initial handshake / login
 
 As soon as the WebSocket connection is established, the outlet sends the JSON message below.  I have randomized the account number and device uuid:
 
@@ -60,16 +60,19 @@ The server reply:
 {"uri":"/loginReply","error":0,"wd":3,"year":2017,"month":11,"day":1,"ms":62125134,"hh":0,"hl":0,"lh":0,"ll":0}
 ```
 
-## Periodic message sent from server
+## 180 seconds later
+
+The server sends:
 ```
 {"uri":"/ka"}
 ```
-Outlet acknowledges message without reply.  And I've seen it also reply:
+
+Outlet acknowledges and sends reply:
 ```
 {"uri":"/kr"}
 ```
 
-## Periodic updates sent from the outlet to the server:
+## 2 seconds later, the outlet sends a report message:
 ```
 {
 "uri":"/report",
@@ -79,12 +82,12 @@ Outlet acknowledges message without reply.  And I've seen it also reply:
 ```
 Server acknowledges message without reply
 
-## Periodic message 2
+
+## 180 seconds later: Periodic message 2
 Request from outlet:
 ```
 {"uri":"/ka","rssi":-39}
 ```
-
 Server acknowledges message then sends response:
 ```
 {"uri":"/kr","error":0,"wd":3,"year":2017,"month":11,"day":1,"ms":62482912}
@@ -100,7 +103,7 @@ Three seconds later the outlet sends:
 ```
 Server acknowledges message without reply.
 
-## Another message from outlet
+## 180 seconds later: Another message from outlet
 ```
 {"uri":"/ka","rssi":-38}
 ```
@@ -123,7 +126,24 @@ Outlet acknowledges message.  Then 3 seconds later sends:
 
 Server acknowledges message.
 
+## Conclusions on Message timing
+
+### The 183 second cycle
+
+1. The outlet sends `{"uri":"/ka","rssi":-38}`
+2. The server responds immediately (70ms) with `{"uri":"/kr","error":0, ...}`
+2. The outlet waits 3 seconds and then sends `{"uri":"/report", ...}`
+3. Then the outlet waits 180 seconds and the cycle repeats.
+
+How the cycle starts is still a bit confusing.  After the outlet sends the /login message and the server responds with the /loginReply, one of few things might happen:
+
+1. The outlet sends nothing.  180 seconds go by and the server sends `{"uri":"/ka"}`.  The outlet replies immediately with `{"uri":"/kr"}`. 2 seconds later the outlet sends a `{"uri":"/report", ...}` message and the cycle beings.
+2. The outlet will send a `{"uri":"/report", ...}` message within 180 seconds (or less) and the cycle beings.
+
+
 ## Other variations
+
+Trying to figure out the `e`, `t`, and `rssi` values.
 
 ```
 {
@@ -147,7 +167,7 @@ Server acknowledges message.
 "e":"8e8",
 "t":"b6"
 }
-
+{"uri":"/kr","error":0,"wd":5,"year":2017,"month":11,"day":3,"ms":4388167}
 ```
 
 Next step: decipher the meaning and encoding of these fields.
@@ -190,8 +210,33 @@ Client responds:
 }
 ```
 
-## More captures for analysis
-These variations of messages above were captured to provide a basis for reverse engineering the protocol.
-```
-{"uri":"/kr","error":0,"wd":5,"year":2017,"month":11,"day":3,"ms":4388167}
+# Messages
 
+## Login Request
+
+| Key          | Example   | Type     | Description  |
+|--------------|:---------:|----------|--------------|
+| account      | `"1234567"` | string   | An account number for the VeSync service. |
+| id           | `"443c878f-f675-4c90-98e8-2f4566914d39"` | string  | UUID for the outlet  |
+| deviceName   | `"vesync_wifi_outlet"` | string | product name? |
+| deviceVersion | `"1.5"` | string | product model? |
+| relay        | open      | string   | current state of the relay.  **open** or **break** |
+
+### Example
+
+```
+{
+"account":"1234567",
+"id":"443c878f-f675-4c90-98e8-2f4566914d39",
+"deviceName":"vesync_wifi_outlet",
+"deviceVersion":"1.5",
+"deviceVersionCode":5,
+"type":"wifi-switch",
+"apptype":"switch-measure",
+"firmName":"cosytek_firm_a",
+"firmVersion":"1.89",
+"firmVersionCode":89,
+"key":0,
+"relay":"open"
+}
+```
