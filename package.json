@@ -1,0 +1,40 @@
+{
+  "name": "outlet",
+  "version": "1.0.0",
+  "description": "A WebSocket server for controlling Wifi smart outlets",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha lib/**/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/travissinnott/outlet.git"
+  },
+  "keywords": [
+    "outlet",
+    "websocket",
+    "wifi",
+    "etekcity",
+    "voltson",
+    "esw01-usa",
+    "vesync"
+  ],
+  "author": "Travis Sinnott <travis.sinnott@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/travissinnott/outlet/issues"
+  },
+  "homepage": "https://github.com/travissinnott/outlet#readme",
+  "dependencies": {
+    "bunyan": "1.8.12",
+    "bunyan-format": "0.2.1",
+    "chai": "4.1.2",
+    "fs-extra": "4.0.2",
+    "lodash": "4.17.4",
+    "moment": "2.19.1",
+    "ws": "3.2.0"
+  },
+  "devDependencies": {
+    "mocha": "4.0.1"
+  }
+}
