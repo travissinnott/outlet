@@ -64,7 +64,10 @@ The server reply:
 ```
 {"uri":"/ka"}
 ```
-Outlet acknowledges message without reply
+Outlet acknowledges message without reply.  And I've seen it also reply:
+```
+{"uri":"/kr"}
+```
 
 ## Periodic updates sent from the outlet to the server:
 ```
@@ -74,7 +77,7 @@ Outlet acknowledges message without reply
 "t":"b7"
 }
 ```
-Server acknowleges message without reply
+Server acknowledges message without reply
 
 ## Periodic message 2
 Request from outlet:
@@ -82,7 +85,7 @@ Request from outlet:
 {"uri":"/ka","rssi":-39}
 ```
 
-Server acknowleges message then sends response:
+Server acknowledges message then sends response:
 ```
 {"uri":"/kr","error":0,"wd":3,"year":2017,"month":11,"day":1,"ms":62482912}
 ```
@@ -95,20 +98,20 @@ Three seconds later the outlet sends:
 "t":"b6"
 }
 ```
-Server acknowleges message without reply.
+Server acknowledges message without reply.
 
 ## Another message from outlet
 ```
 {"uri":"/ka","rssi":-38}
 ```
 
-Server acknowleges message then sends reply (within 70ms):
+Server acknowledges message then sends reply (within 70ms):
 
 ```
 {"uri":"/kr","error":0,"wd":3,"year":2017,"month":11,"day":1,"ms":62666011}
 ```
 
-Outlet acknowleges message.  Then 3 seconds later sends:
+Outlet acknowledges message.  Then 3 seconds later sends:
 
 ```
 {
@@ -118,7 +121,7 @@ Outlet acknowleges message.  Then 3 seconds later sends:
 }
 ```
 
-Server acknowleges message.
+Server acknowledges message.
 
 ## Other variations
 
@@ -186,4 +189,9 @@ Client responds:
 "current":"NaN"
 }
 ```
+
+## More captures for analysis
+These variations of messages above were captured to provide a basis for reverse engineering the protocol.
+```
+{"uri":"/kr","error":0,"wd":5,"year":2017,"month":11,"day":3,"ms":4388167}
 
