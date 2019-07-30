@@ -30,9 +30,9 @@
     "bunyan-format": "0.2.1",
     "chai": "4.1.2",
     "fs-extra": "4.0.2",
-    "lodash": "4.17.4",
-    "moment": "2.19.1",
-    "ws": "3.2.0"
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "ws": "^7.1.1"
   },
   "devDependencies": {
     "mocha": "4.0.1"
